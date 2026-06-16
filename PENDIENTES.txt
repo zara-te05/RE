@@ -128,6 +128,29 @@
 - [ ] Soporte para strings multilinea (template literals)
 - [ ] Incremento/decremento: x++ / x-- como azucar sintatico sobre x += 1
 
+### 3. Distribucion y Tooling (Sesion 4 - Parcialmente completado)
+- [x] CLI ejecutable `re` (src/compiler.cli/re.ts) - COMPLETO
+- [x] Servidor LSP `re-lsp` (src/compiler.cli/re-lsp.ts) - COMPLETO
+- [x] Script instalador Linux/macOS (install.sh) - COMPLETO
+- [x] Script instalador Windows (install.ps1) - COMPLETO
+- [x] Script post-build para shebangs (scripts/add-shebangs.js) - COMPLETO
+- [x] package.json actualizado con campos "bin", scripts "build" y dependencias LSP - COMPLETO
+- [ ] Extensión minima de VS Code (cliente LSP ligero que arranque re-lsp)
+      -> Crear carpeta vscode-extension/ con package.json de extension,
+         activar en archivos .re, lanzar re-lsp como child process del cliente
+- [ ] Coloreado de sintaxis TextMate (.tmLanguage.json) para archivos .re
+      -> Palabras clave: program, int, double, string, bool, var, list, array, queue, stack,
+         if, else, while, do, for, in, return, print, input, true, false
+- [ ] Instrucciones de configuracion por editor en README:
+      -> Neovim: nvim-lspconfig custom server entry para re-lsp
+      -> Sublime Text: LSP plugin + re-lsp.sublime-settings
+      -> Helix: languages.toml entry para .re con re-lsp
+      -> Zed: extensions/re/extension.toml
+- [ ] Publicar en npm como paquete global (npm publish) con nombre "re-lang"
+      -> Requiere cuenta en npmjs.com y configurar .npmignore
+- [ ] Empaquetar como binario standalone con `pkg` (no requiere Node.js instalado)
+      -> npx pkg . --targets node18-linux-x64,node18-macos-x64,node18-win-x64
+
 ---
 
 ## PUNTO DE PARADA
@@ -186,3 +209,56 @@
 > PROXIMA SESION - Empezar por:
 >   1. Modularización del lenguaje (sistema de importación)
 >   2. Operadores de incremento y decremento (x++, x--)
+
+---
+
+> SESION 4 COMPLETADA (2026-06-15)
+>
+> Implementados en esta sesion (distribucion y tooling del lenguaje):
+>   - src/compiler.cli/re.ts: CLI ejecutable. Lee archivos .re desde argv, corre TypeChecker
+>     e Interpreter. Soporta flags: --version, --help, --check (solo analisis de tipos).
+>   - src/compiler.cli/re-lsp.ts: Servidor LSP completo sobre stdin/stdout usando
+>     vscode-languageserver/node. Publica diagnosticos LSP en tiempo real al editor
+>     (didOpen, didChange, didSave, didClose) traduciendo TypeCheckError a Diagnostic LSP.
+>   - scripts/add-shebangs.js: Script post-build que inserta "#!/usr/bin/env node" en
+>     re.js y re-lsp.js y les da permisos de ejecucion (chmod +x).
+>   - install.sh: Instalador Bash para Linux/macOS. Verifica Node.js/npm, instala deps,
+>     compila, y crea symlinks en /usr/local/bin/re y /usr/local/bin/re-lsp.
+>   - install.ps1: Instalador PowerShell para Windows. Crea wrappers .cmd y agrega
+>     la ruta al PATH del usuario (sin requerir Admin para el PATH).
+>   - package.json: Actualizado con campos "bin" (re y re-lsp), script "build" que
+>     corre tsc + add-shebangs.js, y dependencias vscode-languageserver v9 y
+>     vscode-languageserver-textdocument v1.
+>   - hola.re: Programa de prueba para verificar el funcionamiento de la CLI.
+>
+> Resultado de las pruebas:
+>   - npx tsc: EXITOSO (0 errores de TypeScript)
+>   - node dist/compiler.cli/re.js --version: "re 1.0.0" OK
+>   - node dist/compiler.cli/re.js --help: Muestra ayuda completa OK
+>   - node dist/compiler.cli/re.js hola.re: Ejecuta el programa correctamente OK
+>   - node dist/compiler.cli/re.js /tmp/error_test.re: Detecta error de tipo OK
+>   - node dist/compiler.cli/re.js hola.re --check: "sin errores" OK
+>
+> PROXIMA SESION - Empezar por:
+>   1. Publicación y empaquetado final de la extensión de VS Code a un archivo .vsix usando la herramienta vsce.
+>   2. Creación del repositorio de extensiones local o publicación en la Marketplace de VS Code.
+>   3. Integrar sistema de importación y modularización ("import") en el parser e intérprete.
+
+---
+
+> SESION 5 COMPLETADA (2026-06-15)
+>
+> Implementados en esta sesion (soporte para editores y tutorial de RE):
+>   - editors/vscode/package.json: Registro oficial de la extensión de VS Code para el lenguaje "re"
+>     (con extensión .re), enlace al archivo de gramática y definición de comandos de compilación.
+>   - editors/vscode/tsconfig.json: Configuración específica de TypeScript para compilar la extensión.
+>   - editors/vscode/language-configuration.json: Configuración para auto-cierre de corchetes, comillas y comentarios de línea/bloque.
+>   - editors/vscode/syntaxes/re.tmLanguage.json: Gramática TextMate completa en JSON. Colorea keywords (program, static, print, input, return, logic/arithmetic ops), tipos (primitive + collection) y números/literales.
+>   - editors/vscode/src/extension.ts: Cliente de lenguaje LSP de VS Code. Se conecta con el ejecutable "re-lsp" del PATH de forma limpia y redirige las salidas para depuración. Compilado con TypeScript exitosamente.
+>   - TUTORIAL.md: Guía integral de instalación, uso de la CLI, reglas básicas de sintaxis de RE (incluyendo variables, colecciones, funciones) y cómo integrar re-lsp en VS Code, Neovim, Sublime Text y Helix.
+>
+> Pruebas y compilación:
+>   - Compilación de la extensión en editors/vscode: EXITOSA (npx tsc compila sin advertencias ni errores).
+>   - Verificación de la gramática de sintaxis: Estructurada según el esquema estándar de TextMate.
+
+

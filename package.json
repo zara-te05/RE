@@ -1,20 +1,26 @@
 {
-  "name": "re",
+  "name": "re-lang",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Re: Lenguaje de programación interpretado con fines educativos, construido sobre Node.js y ANTLR4.",
+  "main": "dist/compiler.cli/re.js",
+  "bin": {
+    "re":     "./dist/compiler.cli/re.js",
+    "re-lsp": "./dist/compiler.cli/re-lsp.js"
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build-lexer": "cd grammar && npx antlr4ts-cli -o ../src/compiler.core Re_Lexer.g4",
+    "test":         "echo \"Error: no test specified\" && exit 1",
+    "build-lexer":  "cd grammar && npx antlr4ts-cli -o ../src/compiler.core Re_Lexer.g4",
     "build-parser": "cd grammar && npx antlr4ts-cli -visitor -o ../src/compiler.core Re_Parser.g4",
-    "build-grammar": "npm run build-lexer && npm run build-parser",
-    "start": "tsc && node dist/compiler.cli/index.js"
+    "build-grammar":"npm run build-lexer && npm run build-parser",
+    "build":        "npx tsc && node scripts/add-shebangs.js",
+    "start":        "tsc && node dist/compiler.cli/index.js",
+    "prepublishOnly": "npm run build"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/zara-te05/RE.git"
   },
-  "keywords": [],
+  "keywords": ["language", "interpreter", "education", "re-lang", "antlr4"],
   "author": "",
   "license": "ISC",
   "type": "commonjs",
@@ -30,6 +36,8 @@
     "typescript": "^6.0.3"
   },
   "dependencies": {
-    "antlr4": "^4.13.2"
+    "antlr4": "^4.13.2",
+    "vscode-languageserver": "^9.0.1",
+    "vscode-languageserver-textdocument": "^1.0.12"
   }
 }

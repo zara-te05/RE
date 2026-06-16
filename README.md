@@ -115,22 +115,57 @@ program Logica {
 
 ---
 
-## Requisitos e Instalación
+## 🚀 Requisitos e Instalación
 
-Para compilar y ejecutar el proyecto necesitas tener **Node.js** y **npm** instalados.
+Para compilar, ejecutar y usar el lenguaje RE en tu terminal o editor, necesitas tener **Node.js** (versión 18 o superior) instalado.
 
-1.  **Instalar dependencias:**
+### 🐧 Instalar en Linux y macOS
+Abre una terminal en la raíz del proyecto y ejecuta:
+```bash
+chmod +x install.sh
+./install.sh
+```
+El instalador compilará el compilador y creará enlaces simbólicos en `/usr/local/bin` para los comandos `re` (CLI) y `re-lsp` (Servidor de Lenguaje).
+
+### 🪟 Instalar en Windows
+Abre **PowerShell como Administrador** en la raíz del proyecto y ejecuta:
+```powershell
+Set-ExecutionPolicy Bypass -Scope Process -Force
+.\install.ps1
+```
+*Nota: Cierra y vuelve a abrir tu terminal tras la instalación para que se aplique la variable `PATH`.*
+
+---
+
+## 💻 Uso en la Terminal (CLI)
+
+Una vez instalado, el comando `re` estará disponible globalmente:
+
+*   **Ejecutar un archivo:**
     ```bash
-    npm install
+    re mi_programa.re
+    ```
+*   **Solo analizar tipos y sintaxis (sin ejecutar):**
+    ```bash
+    re mi_programa.re --check
+    ```
+*   **Ver versión o ayuda:**
+    ```bash
+    re --version
+    re --help
     ```
 
-2.  **Compilar y Ejecutar un archivo:**
-    ```bash
-    # Compilar el código TypeScript y ejecutar el CLI
-    npx tsc && node dist/compiler.cli/test_features.js
-    ```
-    
-    O utilizar el script principal:
-    ```bash
-    npm run start
-    ```
+---
+
+## 🎨 Soporte para Editores de Código (LSP)
+
+El instalador expone el servidor de lenguaje **`re-lsp`**. Esto permite a cualquier editor compatible con el protocolo LSP (Language Server Protocol) darte autocompletado y validación de tipos en tiempo real.
+
+Hemos desarrollado soporte específico para:
+*   **VS Code:** Extensión integrada de cliente LSP y coloreado de sintaxis (ubicada en `editors/vscode`).
+*   **Neovim:** Configuración mediante `nvim-lspconfig`.
+*   **Sublime Text:** Integración usando el plugin `LSP`.
+*   **Helix:** Configuración nativa en `languages.toml`.
+
+> [!TIP]
+> Consulta el archivo [TUTORIAL.md](file:///home/zarate/RE/TUTORIAL.md) para ver ejemplos completos de sintaxis, colecciones, funciones y la guía de configuración detallada para cada editor de código.

@@ -28,5 +28,10 @@
     "moduleResolution": "nodenext",
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true
-  }
+  },
+  "exclude": [
+    "editors",
+    "dist",
+    "node_modules"
+  ]
 }

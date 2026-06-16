@@ -1,0 +1,132 @@
+{
+  "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+  "name": "RE",
+  "patterns": [
+    { "include": "#comments" },
+    { "include": "#strings" },
+    { "include": "#numbers" },
+    { "include": "#keywords" },
+    { "include": "#types" },
+    { "include": "#operators" },
+    { "include": "#brackets" }
+  ],
+  "repository": {
+    "comments": {
+      "patterns": [
+        {
+          "name": "comment.line.double-slash.re",
+          "match": "//.*$"
+        },
+        {
+          "name": "comment.block.re",
+          "begin": "/\\*",
+          "end": "\\*/"
+        }
+      ]
+    },
+    "strings": {
+      "patterns": [
+        {
+          "name": "string.quoted.double.re",
+          "begin": "\"",
+          "end": "\"",
+          "patterns": [
+            {
+              "name": "constant.character.escape.re",
+              "match": "\\\\."
+            }
+          ]
+        }
+      ]
+    },
+    "numbers": {
+      "patterns": [
+        {
+          "name": "constant.numeric.float.re",
+          "match": "\\b\\d+\\.\\d+\\b|\\.\\d+\\b"
+        },
+        {
+          "name": "constant.numeric.integer.re",
+          "match": "\\b\\d+\\b"
+        }
+      ]
+    },
+    "keywords": {
+      "patterns": [
+        {
+          "name": "keyword.control.program.re",
+          "match": "\\bprogram\\b"
+        },
+        {
+          "name": "keyword.control.flow.re",
+          "match": "\\b(if|else|while|do|for|in|return)\\b"
+        },
+        {
+          "name": "keyword.other.builtin.re",
+          "match": "\\b(print|input|to_int|to_str|to_double|len|size)\\b"
+        },
+        {
+          "name": "constant.language.boolean.re",
+          "match": "\\b(true|false)\\b"
+        }
+      ]
+    },
+    "types": {
+      "patterns": [
+        {
+          "name": "storage.type.primitive.re",
+          "match": "\\b(int|double|long|short|bool|string|void|var)\\b"
+        },
+        {
+          "name": "storage.type.collection.re",
+          "match": "\\b(list|array|queue|stack)\\b"
+        }
+      ]
+    },
+    "operators": {
+      "patterns": [
+        {
+          "name": "keyword.operator.assignment.compound.re",
+          "match": "\\+=|-=\\*=/="
+        },
+        {
+          "name": "keyword.operator.assignment.re",
+          "match": "="
+        },
+        {
+          "name": "keyword.operator.comparison.re",
+          "match": "==|!=|>=|<=|>|<"
+        },
+        {
+          "name": "keyword.operator.logical.re",
+          "match": "\\b(and|or|not)\\b|&&|\\|\\||!"
+        },
+        {
+          "name": "keyword.operator.arithmetic.re",
+          "match": "\\+|-|\\*|/|\\^"
+        },
+        {
+          "name": "keyword.operator.range.re",
+          "match": "\\.\\."
+        }
+      ]
+    },
+    "brackets": {
+      "patterns": [
+        {
+          "name": "meta.brace.curly.re",
+          "match": "\\{|\\}"
+        },
+        {
+          "name": "meta.brace.round.re",
+          "match": "\\(|\\)"
+        },
+        {
+          "name": "meta.brace.square.re",
+          "match": "\\[|\\]"
+        }
+      ]
+    }
+  ],
+  "scopeName": "source.re"
+}
